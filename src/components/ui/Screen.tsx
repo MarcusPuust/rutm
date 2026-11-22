@@ -15,7 +15,11 @@ export function Screen({ scroll = false, children, style }: Props) {
   ) : (
     <View style={[styles.content, style]}>{children}</View>
   );
-  return <SafeAreaView style={styles.root} edges={['top']}>{content}</SafeAreaView>;
+  return (
+    <SafeAreaView style={styles.root} edges={['top']}>
+      {content}
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

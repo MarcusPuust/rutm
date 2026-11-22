@@ -41,7 +41,12 @@ export function Button({ label, variant = 'primary', large = false, style, ...re
 }
 
 const styles = StyleSheet.create({
-  base: { borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20 },
+  base: {
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
   primary: { backgroundColor: colors.accent },
   secondary: { borderWidth: 2, borderColor: colors.ink, backgroundColor: 'transparent' },
   dark: { backgroundColor: colors.ink },

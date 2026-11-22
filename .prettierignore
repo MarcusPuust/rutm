@@ -1,0 +1,14 @@
+# Sõltuvused ja genereeritud failid
+node_modules/
+.expo/
+dist/
+web-build/
+android/
+ios/
+package-lock.json
+expo-env.d.ts
+
+# Pildid ja dokumentatsioon (Markdowni tabeleid ja ASCII-skeeme ei vorminda)
+assets/
+docs/
+*.md
