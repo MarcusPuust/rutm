@@ -9,5 +9,7 @@ export * from './Button';
 export * from './Card';
 export * from './Icon';
 export * from './Screen';
+export * from './ScreenHeader';
+export * from './StepIndicator';
 export * from './TabBar';
 export * from './PlaceholderScreen';
