@@ -39,3 +39,14 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# --- Rütm lisad ---
+# Saladused: .env EI lähe Giti (mall on .env.example)
+.env
+# Buildid
+*.apk
+*.aab
+*.ipa
+# Redaktorid
+.vscode/
+.idea/
