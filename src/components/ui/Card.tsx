@@ -8,7 +8,9 @@ import { colors, radius, spacing } from '@/theme';
 type Props = ViewProps & { variant?: 'light' | 'dark' };
 
 export function Card({ variant = 'light', style, ...rest }: Props) {
-  return <View style={[styles.base, variant === 'dark' ? styles.dark : styles.light, style]} {...rest} />;
+  return (
+    <View style={[styles.base, variant === 'dark' ? styles.dark : styles.light, style]} {...rest} />
+  );
 }
 
 const styles = StyleSheet.create({

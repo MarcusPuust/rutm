@@ -22,11 +22,7 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "rutm",
-    "plugins": [
-      "expo-router",
-      "expo-status-bar",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-status-bar", "expo-font"],
     "experiments": {
       "typedRoutes": true
     }
