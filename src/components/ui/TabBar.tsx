@@ -3,26 +3,40 @@
  * Vastutaja: Liige 1
  *
  * Expo Router SDK 58 kohandatud menüü (expo-router/ui):
- *  - TabBarButton: üks menüünupp. TabTrigger annab talle prop'i `isFocused`.
+ *  - TabBar:       valge ovaalne riba, hõljub ekraani alaservast eemal.
+ *  - TabBarButton: üks menüünupp ikooni ja tekstiga. TabTrigger annab talle prop'i `isFocused`.
  *  - PlusButton:   keskmine tume "+" ring, avab trenni salvestuse.
- *  - tabBarStyles: menüü riba stiil.
  * Kasutus: src/app/(tabs)/_layout.tsx
- *
- * TODO (Liige 1): lisa ikoonid nuppude kohale (vt disain).
  */
-import { Pressable, Text, StyleSheet } from 'react-native';
+import type { ReactNode } from 'react';
+import { Pressable, View, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import type { TabTriggerSlotProps } from 'expo-router/ui';
-import { colors, fonts, radius } from '@/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors, fonts, radius, spacing } from '@/theme';
+import { AppText } from './AppText';
+import { Icon, type IconName } from './Icon';
+
+/** Menüü riba. Alumine vahe arvestab telefoni kodunupu/žestiriba alaga. */
+export function TabBar({ children }: { children: ReactNode }) {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[styles.bar, { marginBottom: Math.max(insets.bottom, spacing.lg) }]}>
+      {children}
+    </View>
+  );
+}
 
 // `ref` jäetakse välja: TabTrigger'i ref-tüüp ei klapi Pressable'iga ja nupp ei vaja seda.
 type TabBarButtonProps = Omit<TabTriggerSlotProps, 'ref'> & {
-  /** Nupu all olev tekst */
+  /** Ikooni all olev tekst */
   label: string;
+  /** Ikoon teksti kohal */
+  icon: IconName;
 };
 
-/** Üks menüünupp. Aktiivne nupp on laimirohelise ovaaliga. */
-export function TabBarButton({ label, isFocused, ...props }: TabBarButtonProps) {
+/** Üks menüünupp. Aktiivne nupp on laimirohelise ovaaliga, ikoon ja tekst tumedad. */
+export function TabBarButton({ label, icon, isFocused, ...props }: TabBarButtonProps) {
   return (
     <Pressable
       {...props}
@@ -30,7 +44,14 @@ export function TabBarButton({ label, isFocused, ...props }: TabBarButtonProps) 
       accessibilityState={{ selected: !!isFocused }}
       style={[styles.tab, isFocused && styles.tabActive]}
     >
-      <Text style={[styles.label, isFocused && styles.labelActive]}>{label}</Text>
+      <Icon name={icon} size={22} color={isFocused ? colors.ink : colors.muted} />
+      <AppText
+        variant="caption"
+        color={isFocused ? 'ink' : 'muted'}
+        style={isFocused && styles.labelActive}
+      >
+        {label}
+      </AppText>
     </Pressable>
   );
 }
@@ -44,16 +65,35 @@ export function PlusButton() {
       onPress={() => router.push('/record/select')}
       style={styles.plus}
     >
-      <Text style={styles.plusText}>+</Text>
+      <Icon name="plus" size={28} color={colors.accent} strokeWidth={2.6} />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  tab: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
+  bar: {
+    flexDirection: 'row',
+    marginHorizontal: spacing.lg,
+    padding: 6,
+    height: 72,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surface,
+    // Pehme vari (iOS: shadow*, Android: elevation)
+    shadowColor: colors.ink,
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    borderRadius: radius.pill,
+  },
   tabActive: { backgroundColor: colors.accent },
-  label: { fontFamily: fonts.bodyMedium, fontSize: 12, color: colors.muted },
-  labelActive: { fontFamily: fonts.bodySemiBold, color: colors.ink },
+  labelActive: { fontFamily: fonts.bodySemiBold },
   plus: {
     width: 60,
     height: 60,
@@ -62,24 +102,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 4,
-  },
-  plusText: { color: colors.accent, fontSize: 30, lineHeight: 34 },
-});
-
-/** Menüü riba: valge, ovaalne, hõljub ekraani servadest eemal. */
-export const tabBarStyles = StyleSheet.create({
-  bar: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    marginBottom: 24,
-    padding: 6,
-    height: 72,
-    borderRadius: radius.pill,
-    backgroundColor: colors.surface,
-    shadowColor: colors.ink,
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 6,
   },
 });

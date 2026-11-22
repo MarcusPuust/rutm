@@ -4,13 +4,13 @@
  *
  * Expo Router SDK 58 kohandatud menüü (expo-router/ui):
  *  - TabSlot näitab aktiivset ekraani.
- *  - Nähtav riba on meie oma View, milles TabTrigger'id ja "+" nupp.
+ *  - Nähtav riba (TabBar) sisaldab TabTrigger'eid ja "+" nuppu.
  *  - Peidetud TabList ütleb, mis aadressil iga vahekaart asub.
  * Vt https://docs.expo.dev/router/advanced/custom-tabs/
  */
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Tabs, TabList, TabTrigger, TabSlot } from 'expo-router/ui';
-import { TabBarButton, PlusButton, tabBarStyles } from '@/components/ui';
+import { TabBar, TabBarButton, PlusButton } from '@/components/ui';
 import { colors } from '@/theme';
 
 export default function TabsLayout() {
@@ -19,21 +19,21 @@ export default function TabsLayout() {
       <TabSlot />
 
       {/* Nähtav menüü */}
-      <View style={tabBarStyles.bar}>
+      <TabBar>
         <TabTrigger name="index" asChild>
-          <TabBarButton label="Täna" />
+          <TabBarButton label="Täna" icon="today" />
         </TabTrigger>
         <TabTrigger name="team" asChild>
-          <TabBarButton label="Tiim" />
+          <TabBarButton label="Tiim" icon="team" />
         </TabTrigger>
         <PlusButton />
         <TabTrigger name="history" asChild>
-          <TabBarButton label="Ajalugu" />
+          <TabBarButton label="Ajalugu" icon="history" />
         </TabTrigger>
         <TabTrigger name="profile" asChild>
-          <TabBarButton label="Profiil" />
+          <TabBarButton label="Profiil" icon="profile" />
         </TabTrigger>
-      </View>
+      </TabBar>
 
       {/* Peidetud: vahekaartide aadressid */}
       <TabList style={styles.hidden}>
