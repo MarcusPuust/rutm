@@ -4,6 +4,7 @@
  * Veel teha (Liige 1): StatCard, SegmentedControl, Chip, Toggle, Avatar,
  * ActivityIcon, HoogButton, StepIndicator, ScreenHeader, WeekDots.
  */
+export * from './AppText';
 export * from './Button';
 export * from './Card';
 export * from './Screen';
