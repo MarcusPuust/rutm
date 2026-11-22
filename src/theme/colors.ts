@@ -14,6 +14,10 @@ export const colors = {
   onDark: '#EEF1EA', // tekst tumedal taustal
   onDarkMuted: '#B9C4BC', // teisene tekst tumedal taustal
   danger: '#A3271F', // "Kustuta konto"
+  inkRaised: '#26332C', // tulevased päevad tumedal kaardil
 } as const;
+
+/** Avatari taustavärvid – valitakse nime järgi, et sama inimene oleks alati sama värvi. */
+export const avatarColors = ['#C9D6CD', '#DCCFB8', '#C4CCE0', '#E3CFD6', '#CFE0C6'] as const;
 
 export type ColorName = keyof typeof colors;
