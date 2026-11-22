@@ -17,6 +17,14 @@ import {
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { colors } from '@/theme';
 
+/**
+ * Rakendus alustab alati menüüga ekraanigrupist (tabs).
+ * Ilma selleta võtab expo-router esimese grupi tähestiku järgi – (auth)/login.
+ */
+export const unstable_settings = {
+  anchor: '(tabs)',
+};
+
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     SpaceGrotesk_500Medium,
