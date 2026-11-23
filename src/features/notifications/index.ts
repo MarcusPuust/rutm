@@ -1,8 +1,17 @@
 /**
- * Valdkond: notifications
+ * Valdkond: notifications – teavitused
  * Vastutaja: Liige 1
  *
- * Teavitused (expo-notifications): hoog, müks ja nädala meeldetuletus.
- * Loa küsimine on onboardingus (Liige 3), siin on teavituste saatmine ja kuvamine.
+ * Lokaalsed teavitused (töötavad ka Expo Go's):
+ *  - meeldetuletused: "Täna on veel liikumata", nädalavahetuse meeldetuletus
+ *  - tiim: hoog ja müks
+ * Push-teavitused serverist (Supabase) lisanduvad hiljem.
+ *
+ * Kasutus mujal:
+ *   import { requestNotificationPermission } from '@/features/notifications';
  */
-export {};
+export * from './permissions';
+export * from './reminders';
+export * from './setup';
+export * from './team';
+export * from './useNotificationNavigation';
