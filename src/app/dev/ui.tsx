@@ -33,6 +33,14 @@ import {
   type TextVariant,
 } from '@/components/ui';
 import { colors, radius, spacing, text, type ColorName } from '@/theme';
+import {
+  notifyHoog,
+  notifyNudge,
+  requestNotificationPermission,
+  scheduleTodayReminder,
+  scheduleWeeklyReminder,
+} from '@/features/notifications';
+import * as Notifications from 'expo-notifications';
 
 const colorNames = Object.keys(colors) as ColorName[];
 const textVariants = Object.keys(text) as TextVariant[];
@@ -71,6 +79,29 @@ export default function UiShowcase() {
   const [filter, setFilter] = useState<'all' | 'run' | 'walk' | 'bike'>('all');
   const [shared, setShared] = useState(true);
   const [hoog, setHoog] = useState(false);
+  const [notifStatus, setNotifStatus] = useState('');
+
+  /** Proovib teavitust: küsib enne luba, siis näitab tulemust. */
+  async function tryNotification(label: string, send: () => Promise<void>) {
+    if (!(await requestNotificationPermission())) {
+      setNotifStatus('Teavitused pole lubatud – luba need telefoni seadetes.');
+      return;
+    }
+    await send();
+    setNotifStatus(`Saadetud: ${label}`);
+  }
+
+  /** Ajastab "täna liikumata" teavituse 5 sekundi pärast (proovimiseks). */
+  async function sendTodayReminderSoon() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Täna on veel liikumata',
+        body: '15 minutit liikumist teeb päeva täis. Sinu nädal: 2 / 3.',
+        data: { url: '/record/select' },
+      },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 5 },
+    });
+  }
 
   // Valmis rakenduses (production build) seda ekraani ei näidata
   if (!__DEV__) return <Redirect href="/" />;
@@ -211,6 +242,41 @@ export default function UiShowcase() {
           <WeekDots days={sampleWeek} />
         </Card>
         <WeekDots variant="light" days={sampleWeek} />
+      </Section>
+
+      <Section title="Teavitused · features/notifications">
+        <Button
+          label="Hoog (kohe)"
+          variant="secondary"
+          onPress={() =>
+            tryNotification('hoog', () => notifyHoog('Martin', 'Õhtune kõnd', 2, 'a2'))
+          }
+        />
+        <Button
+          label="Müks (kohe)"
+          variant="secondary"
+          onPress={() => tryNotification('müks', () => notifyNudge('Kadri', 2))}
+        />
+        <Button
+          label="Täna liikumata (5 s pärast)"
+          variant="secondary"
+          onPress={() => tryNotification('täna liikumata, 5 s pärast', sendTodayReminderSoon)}
+        />
+        <Button
+          label="Ajasta päris meeldetuletused"
+          variant="secondary"
+          onPress={() =>
+            tryNotification('täna 19:00 ja laupäeviti 10:00', async () => {
+              await scheduleTodayReminder(2, 3);
+              await scheduleWeeklyReminder();
+            })
+          }
+        />
+        {notifStatus ? (
+          <AppText variant="label" color="muted">
+            {notifStatus}
+          </AppText>
+        ) : null}
       </Section>
 
       <Section title="Kaardid · Card">

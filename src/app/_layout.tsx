@@ -16,6 +16,10 @@ import {
 } from '@expo-google-fonts/space-grotesk';
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { colors } from '@/theme';
+import { configureNotifications, useNotificationNavigation } from '@/features/notifications';
+
+// Teavituste seadistus (kuvamine ja Androidi kanalid) üks kord käivitamisel
+configureNotifications();
 
 /**
  * Rakendus alustab alati menüüga ekraanigrupist (tabs).
@@ -33,6 +37,9 @@ export default function RootLayout() {
     Inter_500Medium,
     Inter_600SemiBold,
   });
+
+  // Teavitusele vajutamine avab õige ekraani
+  useNotificationNavigation(fontsLoaded);
 
   // Kuni fondid laevad, ei näita midagi (muidu vilksataks vale font).
   if (!fontsLoaded) return null;
