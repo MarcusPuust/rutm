@@ -20,11 +20,13 @@ import {
   Chip,
   HoogButton,
   Icon,
+  ListRow,
   Screen,
   ScreenHeader,
   SegmentedControl,
   StatCard,
   StepIndicator,
+  TextField,
   Toggle,
   WeekDots,
   activityLabel,
@@ -80,6 +82,8 @@ export default function UiShowcase() {
   const [shared, setShared] = useState(true);
   const [hoog, setHoog] = useState(false);
   const [notifStatus, setNotifStatus] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   /** Proovib teavitust: küsib enne luba, siis näitab tulemust. */
   async function tryNotification(label: string, send: () => Promise<void>) {
@@ -207,6 +211,35 @@ export default function UiShowcase() {
         </View>
       </Section>
 
+      <Section title="Tekstiväli · TextField">
+        <TextField
+          label="E-post"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="nimi@näide.ee"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+        />
+        <TextField
+          label="Parool"
+          value={password}
+          onChangeText={setPassword}
+          placeholder="••••••••"
+          secureTextEntry
+          hint="Vähemalt 8 tähemärki"
+        />
+        <TextField label="Viga" value="vale@" editable={false} error="Kontrolli e-posti aadressi" />
+      </Section>
+
+      <Section title="Seadete read · ListRow">
+        <Card style={styles.listCard}>
+          <ListRow label="Nädala eesmärk" value="3 päeva" onPress={() => setNotifStatus('')} />
+          <ListRow label="Teavitused" value="Sees" onPress={() => setNotifStatus('')} />
+          <ListRow label="Kustuta konto" danger last onPress={() => setNotifStatus('')} />
+        </Card>
+      </Section>
+
       <Section title="Lüliti · Toggle">
         <Card style={styles.rowBetween}>
           <AppText>Jaga tiimi voogu</AppText>
@@ -309,5 +342,6 @@ const styles = StyleSheet.create({
   swatchItem: { width: 96, gap: 2 },
   swatch: { height: 48, borderRadius: radius.chip, borderWidth: 1, borderColor: colors.border },
   iconItem: { width: 64, alignItems: 'center', gap: 4 },
+  listCard: { paddingVertical: 0 },
   bottomSpace: { height: spacing.xxl * 2 },
 });
