@@ -6,6 +6,7 @@
  * Kasutatakse üks kord juurpaigutuses (src/app/_layout.tsx).
  */
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { router, type Href } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 
@@ -21,7 +22,7 @@ function openFromResponse(response: Notifications.NotificationResponse) {
  */
 export function useNotificationNavigation(ready: boolean): void {
   useEffect(() => {
-    if (!ready) return;
+    if (Platform.OS === 'web' || !ready) return;
 
     // Rakendus avati teavitusele vajutades, kui see oli täiesti kinni
     const last = Notifications.getLastNotificationResponse();
