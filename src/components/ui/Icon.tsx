@@ -9,6 +9,7 @@
  * Uue ikooni lisamiseks lisa selle SVG joon (path) allolevasse `paths` objekti.
  * Kõik jooned on joonistatud 24 × 24 ruudustikule (viewBox 0 0 24 24).
  */
+import { Platform } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { colors } from '@/theme';
 
@@ -59,7 +60,16 @@ type Props = {
 export function Icon({ name, size = 22, color = colors.ink, strokeWidth = 2 }: Props) {
   return (
     // Ikoon on kaunistus – ekraanilugeja loeb nupu teksti või accessibilityLabel'i
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" accessibilityElementsHidden>
+    <Svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      {...Platform.select({
+        web: { 'aria-hidden': true },
+        default: { accessibilityElementsHidden: true },
+      })}
+    >
       <Path
         d={paths[name]}
         stroke={color}
