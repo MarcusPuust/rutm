@@ -59,15 +59,15 @@ export function ActivityHistory({ activities, goal, onOpen, onDemo, demo = false
       <View style={styles.statsRow}>
         <Card variant="dark" style={styles.monthStat}>
           <AppText variant="caption" color="onDarkMuted">Aktiivseid päevi</AppText>
-          <AppText variant="stat" color="onDark" numberOfLines={1} adjustsFontSizeToFit>{stats.activeDays.size}</AppText>
+          <AppText variant="stat" color="onDark" style={styles.statValue} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>{stats.activeDays.size}</AppText>
         </Card>
         <Card style={styles.monthStat}>
           <AppText variant="caption" color="muted">Aeg kokku</AppText>
-          <AppText variant="stat" numberOfLines={1} adjustsFontSizeToFit>{formatTotalTime(stats.durationSeconds)}</AppText>
+          <AppText variant="stat" style={styles.statValue} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>{formatTotalTime(stats.durationSeconds)}</AppText>
         </Card>
         <Card style={styles.monthStat}>
           <AppText variant="caption" color="muted">Distants</AppText>
-          <AppText variant="stat" numberOfLines={1} adjustsFontSizeToFit>{formatDistance(stats.distanceMeters)}</AppText>
+          <AppText variant="stat" style={styles.statValue} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>{formatDistance(stats.distanceMeters)}</AppText>
         </Card>
       </View>
       <View style={styles.section}>
@@ -105,4 +105,5 @@ const styles = StyleSheet.create({
   activityHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: spacing.xs },
   activityName: { fontFamily: fonts.bodySemiBold },
   empty: { paddingVertical: spacing.xl, textAlign: 'center' },
+  statValue: { fontSize: 24, },
 });
