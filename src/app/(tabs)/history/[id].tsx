@@ -9,7 +9,10 @@ export default function ActivityDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const activities = useActivities();
   const activity = activities.find((item) => item.id === id);
-  const back = () => { if (router.canGoBack()) router.back(); else router.replace('/history'); };
+  const back = () => {
+    if (router.canGoBack()) router.back();
+    else router.replace('/history');
+  };
   if (!activity) {
     return (
       <Screen>
@@ -19,5 +22,14 @@ export default function ActivityDetailsScreen() {
       </Screen>
     );
   }
-  return <ActivitySummary demo key={activity.id} activity={activity} activities={activities} goal={demoProfile} onBack={back} />;
+  return (
+    <ActivitySummary
+      demo
+      key={activity.id}
+      activity={activity}
+      activities={activities}
+      goal={demoProfile}
+      onBack={back}
+    />
+  );
 }

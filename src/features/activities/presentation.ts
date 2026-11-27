@@ -23,6 +23,7 @@ export function activityPace(activity: Activity): string {
 /** Kuu kogukestus lühikesel kujul. */
 export function formatTotalTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return minutes === 0 && seconds > 0 ? formatDuration(seconds) : `${minutes} min`;
+  if (minutes < 60)
+    return minutes === 0 && seconds > 0 ? formatDuration(seconds) : `${minutes} min`;
   return `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, '0')}`;
 }

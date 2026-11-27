@@ -2,15 +2,28 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const {
-  dayKey, startOfWeek, addDays, activeDayKeys, getWeekProgress,
-  getStreak, getMonthStatistics, monthCells,
+  dayKey,
+  startOfWeek,
+  addDays,
+  activeDayKeys,
+  getWeekProgress,
+  getStreak,
+  getMonthStatistics,
+  monthCells,
 } = require('../src/features/activities/progress.ts');
 const goal = { minMinutes: 15, weeklyGoalDays: 3 };
 const date = (day, month = 10, year = 2026) => new Date(year, month - 1, day, 12);
 let id = 0;
 const activity = (d, durationSeconds = 900, distanceMeters = 1000) => ({
-  id: String(++id), userId: 'u1', type: 'run', startedAt: d.toISOString(),
-  durationSeconds, distanceMeters, route: [], splits: [], sharedToTeam: false,
+  id: String(++id),
+  userId: 'u1',
+  type: 'run',
+  startedAt: d.toISOString(),
+  durationSeconds,
+  distanceMeters,
+  route: [],
+  splits: [],
+  sharedToTeam: false,
 });
 const week = (first) => [0, 2, 4].map((offset) => activity(addDays(first, offset)));
 
@@ -22,7 +35,12 @@ test('Nädal algab esmaspäeval ja ületab kuupiiri', () => {
   assert.equal(dayKey(startOfWeek(date(1))), '2026-09-28');
 });
 test('Nädal: tänane, möödunud, tulevane ja täis päev', () => {
-  const result = getWeekProgress([activity(date(5)), activity(date(7)), activity(date(9))], goal, date(8), date(8));
+  const result = getWeekProgress(
+    [activity(date(5)), activity(date(7)), activity(date(9))],
+    goal,
+    date(8),
+    date(8),
+  );
   assert.deepEqual(result.days, ['done', 'rest', 'done', 'today', 'future', 'future', 'future']);
   assert.equal(result.activeDays, 2);
   assert.equal(result.complete, false);

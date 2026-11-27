@@ -33,7 +33,9 @@ export function dailySeconds(activities: readonly Activity[]): Map<string, numbe
 /** Tagastab päevad, mil trennide kogukestus täidab päevase eesmärgi. */
 export function activeDayKeys(activities: readonly Activity[], minMinutes: number): Set<string> {
   return new Set(
-    [...dailySeconds(activities)].filter(([, seconds]) => seconds >= minMinutes * 60).map(([key]) => key),
+    [...dailySeconds(activities)]
+      .filter(([, seconds]) => seconds >= minMinutes * 60)
+      .map(([key]) => key),
   );
 }
 
@@ -54,14 +56,23 @@ export function getWeekProgress(
     return key === todayKey ? 'today' : 'rest';
   });
   const activeDays = days.filter((status) => status === 'done').length;
-  return { days, activeDays, goalDays: goal.weeklyGoalDays, complete: activeDays >= goal.weeklyGoalDays };
+  return {
+    days,
+    activeDays,
+    goalDays: goal.weeklyGoalDays,
+    complete: activeDays >= goal.weeklyGoalDays,
+  };
 }
 
 /**
  * Edukate nädalate arv järjest. Pooleliolev nädal ei katkesta rütmi;
  * täidetud käesolev nädal läheb kohe arvesse. Eesmärk on praegu sama kõigil nädalatel.
  */
-export function getStreak(activities: readonly Activity[], goal: ActivityGoal, today = new Date()): number {
+export function getStreak(
+  activities: readonly Activity[],
+  goal: ActivityGoal,
+  today = new Date(),
+): number {
   if (goal.weeklyGoalDays < 1 || goal.weeklyGoalDays > 7) return 0;
   const active = activeDayKeys(activities, goal.minMinutes);
   const todayKey = dayKey(today);
@@ -83,9 +94,14 @@ export function getStreak(activities: readonly Activity[], goal: ActivityGoal, t
 }
 
 /** Valitud kuu statistika ja trennid uuemast vanemani; filtrid statistikat ei muuda. */
-export function getMonthStatistics(activities: readonly Activity[], month: Date, minMinutes: number) {
+export function getMonthStatistics(
+  activities: readonly Activity[],
+  month: Date,
+  minMinutes: number,
+) {
   const prefix = dayKey(month).slice(0, 7);
-  const items = activities.filter((activity) => dayKey(new Date(activity.startedAt)).startsWith(prefix))
+  const items = activities
+    .filter((activity) => dayKey(new Date(activity.startedAt)).startsWith(prefix))
     .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
   const activeDays = activeDayKeys(items, minMinutes);
   return {

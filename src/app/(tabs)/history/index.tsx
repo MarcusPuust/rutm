@@ -7,8 +7,12 @@ import { ActivityHistory } from '@/features/activities/components/ActivityHistor
 export default function HistoryScreen() {
   const activities = useActivities();
   return (
-    <ActivityHistory demo activities={activities} goal={demoProfile}
+    <ActivityHistory
+      demo
+      activities={activities}
+      goal={demoProfile}
       onOpen={(id) => router.push({ pathname: '/history/[id]', params: { id } })}
-      onDemo={__DEV__ ? () => router.push('/record/summary') : undefined} />
+      onDemo={__DEV__ ? () => router.push('/record/summary') : undefined}
+    />
   );
 }
