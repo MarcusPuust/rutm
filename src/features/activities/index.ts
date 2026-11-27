@@ -7,4 +7,7 @@
  * Reegel: ekraanid (src/app/) kutsuvad siit hook'e ja funktsioone,
  * aga ei räägi ise otse Supabase'iga.
  */
-export {};
+
+/** Liige 5: trennide andmeallikas ning aktiivse päeva, nädala ja rütmi loogika. */
+export * from './progress';
+export * from './mockRepository';
